@@ -17,16 +17,20 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QC8JXZ0YBH"></script>
 <script>
-/* ===== ANALYTICS =====
-   Vercel Web Analytics + Speed Insights: Vercel dashboard → Analytics, Speed Insights-ийг Enable хийхэд ажиллана.
-   Google Analytics 4: доорх GA_ID-д "G-XXXXXXXXXX" ID-аа бичнэ. Хоосон бол ачаалахгүй. */
-window.GA_ID="";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QC8JXZ0YBH');
+</script>
+<script>
+/* Vercel Web Analytics + Speed Insights (Vercel dashboard дээр Enable хийнэ) */
 window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};
 window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments)};
-if(window.GA_ID){var g=document.createElement("script");g.async=true;g.src="https://www.googletagmanager.com/gtag/js?id="+window.GA_ID;document.head.appendChild(g);
- window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag("js",new Date());gtag("config",window.GA_ID);}
-window.track=function(name,data){try{window.va("event",{name:name,data:data})}catch(e){}try{window.gtag&&window.gtag("event",name,data)}catch(e){}};
+/* Үйл явдлыг Vercel болон GA4 хоёуланд илгээнэ: search, game_filter, ad_click */
+window.track=function(name,data){try{window.va("event",{name:name,data:data})}catch(e){}try{gtag("event",name,data)}catch(e){}};
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

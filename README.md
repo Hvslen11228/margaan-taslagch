@@ -15,7 +15,7 @@ npx vercel --prod --name margaan-taslagch
 
 1. Vercel → margaan-taslagch → **Analytics** → Enable (Web Analytics)
 2. **Speed Insights** → Enable
-3. Google Analytics 4: analytics.google.com дээр property үүсгээд `G-XXXXXXXXXX` ID-г `index.html` доторх `window.GA_ID=""` хэсэгт бичээд дахин deploy хийнэ.
+3. Google Analytics 4 холбогдсон (G-QC8JXZ0YBH). Тайлан: analytics.google.com → Reports → Realtime.
 
 Хянагддаг үйл явдлууд: `search` (хайлт), `game_filter` (тоглоом сонголт), `ad_click` (зар дарах).
 
