@@ -19,6 +19,10 @@ npx vercel --prod --name margaan-taslagch
 
 Хянагддаг үйл явдлууд: `search` (хайлт), `game_filter` (тоглоом сонголт), `ad_click` (зар дарах).
 
+## Хайлтын системд (SEO)
+
+`index.html`-ийн `CASES`-д өөрчлөлт оруулсны дараа `node scripts/prerender.mjs` ажиллуулж, статик HTML болон FAQ бүтэцтэй өгөгдлийг шинэчилнэ.
+
 ## Зар засах
 
 `index.html` доторх `const ADS=[...]` жагсаалт. `type`: `banner` (дээд), `board` (баруун самбар), `inline` (6 карт тутамд).
