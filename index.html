@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Билльярд, покер, муушиг, 13 покерийн маргааныг олон улсын дүрмээр шийднэ. Найзуудтайгаа тоглохдоо маргаан гарвал нөхцөлөө хайгаад шийдвэрээ хар.">
+<meta name="theme-color" content="#1d4e89">
+<link rel="icon" href="/favicon-48.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://margaan-taslagch.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="mn_MN">
+<meta property="og:title" content="Маргаан таслагч">
+<meta property="og:description" content="Билльярд, покер, муушиг, 13 покерийн маргааныг олон улсын дүрмээр шийднэ.">
+<meta property="og:url" content="https://margaan-taslagch.vercel.app/">
+<meta property="og:image" content="https://margaan-taslagch.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+/* ===== ANALYTICS =====
+   Vercel Web Analytics + Speed Insights: Vercel dashboard → Analytics, Speed Insights-ийг Enable хийхэд ажиллана.
+   Google Analytics 4: доорх GA_ID-д "G-XXXXXXXXXX" ID-аа бичнэ. Хоосон бол ачаалахгүй. */
+window.GA_ID="";
+window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};
+window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments)};
+if(window.GA_ID){var g=document.createElement("script");g.async=true;g.src="https://www.googletagmanager.com/gtag/js?id="+window.GA_ID;document.head.appendChild(g);
+ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag("js",new Date());gtag("config",window.GA_ID);}
+window.track=function(name,data){try{window.va("event",{name:name,data:data})}catch(e){}try{window.gtag&&window.gtag("event",name,data)}catch(e){}};
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<title>Маргаан таслагч</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@500&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: sticky app bar → hero → filter bar; main column of ruling cards + right rail "Зарын самбар" (stacks under on phones, inline ad every 6 cards) */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --fg:#111827; --muted:#5f6b7a; --line:#e3e7ec;
+  --accent:#1d4e89; --accent-ink:#ffffff; --accent-soft:#e6eef8; --gold:#f59f0a; --gold-soft:#fff3d6; --verdict:#e5484d;
+  --std:#0b7f58; --std-bg:#e3f6ee; --trad:#9a5b00; --trad-bg:#fcefd8;
+  --agree:#5b47d6; --agree-bg:#ecebfc; --rec:#1f6fb2; --rec-bg:#e2eef9;
+  --ad-bg:#fff8e6; --ad-line:#f2dfaa;
+  --shadow:0 1px 2px rgba(17,24,39,.05),0 4px 16px rgba(17,24,39,.05);
+  --f:"Roboto",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --f-mono:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1117; --surface:#151b23; --fg:#e7ecf2; --muted:#94a0ae; --line:#252e39;
+  --accent:#ffc53d; --accent-ink:#1b1400; --accent-soft:#1a2433; --gold:#ffc53d; --gold-soft:#2b220b; --verdict:#ff7a7f;
+  --std:#5ee0aa; --std-bg:#12291f; --trad:#f0bd63; --trad-bg:#2e2410;
+  --agree:#a99cff; --agree-bg:#211d3d; --rec:#7cbcf2; --rec-bg:#142738;
+  --ad-bg:#221d10; --ad-line:#433817; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1117; --surface:#151b23; --fg:#e7ecf2; --muted:#94a0ae; --line:#252e39;
+  --accent:#ffc53d; --accent-ink:#1b1400; --accent-soft:#1a2433; --gold:#ffc53d; --gold-soft:#2b220b; --verdict:#ff7a7f;
+  --std:#5ee0aa; --std-bg:#12291f; --trad:#f0bd63; --trad-bg:#2e2410;
+  --agree:#a99cff; --agree-bg:#211d3d; --rec:#7cbcf2; --rec-bg:#142738;
+  --ad-bg:#221d10; --ad-line:#433817; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:1140px;margin:0 auto}
+.appbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;letter-spacing:-.01em}
+.logo img{width:44px;height:44px;display:block}
+.appbar a{font-size:14px;font-weight:500;color:var(--accent);text-decoration:none}
+.hero{padding-block:20px 22px;display:grid;gap:10px}
+.eyebrow{justify-self:start;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--gold-soft);padding:4px 10px;border-radius:999px}
+.hero h1{font-weight:900;font-size:clamp(28px,5vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.hero p{color:var(--muted);max-width:64ch;margin:0;font-size:16px}
+.ad-banner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;background:var(--ad-bg);border:1px dashed var(--ad-line);border-radius:14px;padding:14px 18px;margin-bottom:18px}
+.ad-banner b{font-weight:700}
+.ad-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--trad)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px 12px;display:grid;gap:10px}
+.search input{width:100%;font:inherit;font-size:16px;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+.chip{flex:none;font:inherit;font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.chip .n{font-family:var(--f-mono);font-size:12px;opacity:.6;margin-left:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%}
+section.game{margin-top:22px;display:grid;gap:12px}
+.ghead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}
+.ghead h2{font-weight:700;font-size:22px;letter-spacing:-.01em;margin:0}
+.ghead .src{font-size:13px;color:var(--muted)}
+.agree-box{background:var(--agree-bg);border-radius:14px;padding:14px 18px;display:grid;gap:8px}
+.agree-box h3{margin:0;font-size:14px;font-weight:700;color:var(--agree)}
+.agree-box ul{margin:0;padding-left:18px;display:grid;gap:3px;font-size:14px}
+.slip{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:grid;gap:10px;box-shadow:var(--shadow)}
+.slip .q{font-weight:700;font-size:16.5px;margin:0;text-wrap:pretty}
+.verdict{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start}
+.vbadge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--verdict);background:color-mix(in srgb,var(--verdict) 12%,transparent);border-radius:6px;padding:3px 8px;margin-top:2px}
+.verdict p{margin:0}
+.why{margin:0;color:var(--muted);font-size:14px;max-width:70ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.tag{font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px}
+.t-std{color:var(--std);background:var(--std-bg)}.t-trad{color:var(--trad);background:var(--trad-bg)}
+.t-agree{color:var(--agree);background:var(--agree-bg)}.t-rec{color:var(--rec);background:var(--rec-bg)}
+.ref{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.ad-inline{background:var(--ad-bg);border:1px dashed var(--ad-line);border-radius:16px;padding:16px 20px;display:grid;gap:6px}
+.ad-inline p{margin:0}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:grid;gap:12px;padding-top:10px}
+@media (max-width:900px){aside{position:static}}
+aside h2{font-size:15px;font-weight:700;margin:0;display:flex;justify-content:space-between;align-items:baseline}
+aside h2 span{font-size:12px;font-weight:500;color:var(--muted)}
+.ad{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:6px;box-shadow:var(--shadow)}
+.ad .cat{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.ad b{font-size:15px}
+.ad p{margin:0;font-size:13.5px;color:var(--muted)}
+.ad .contact{font-family:var(--f-mono);font-size:12.5px;color:var(--fg);user-select:all}
+.ad.cta{background:var(--ad-bg);border:1px dashed var(--ad-line);box-shadow:none}
+.btn{justify-self:start;font:inherit;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.glossary{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:8px}
+.glossary h2{font-size:15px;margin:0}
+.glossary dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;font-size:13px}
+.glossary dt{color:var(--muted);font-family:var(--f-mono);font-size:12px}
+.glossary dd{margin:0}
+.principles{margin-top:28px;background:var(--accent-soft);border-radius:16px;padding:18px 22px;display:grid;gap:10px}
+.principles h2{font-weight:700;font-size:18px;margin:0}
+.principles ol{margin:0;padding-left:20px;display:grid;gap:6px}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:grid;gap:8px}
+footer a{color:var(--accent)}
+mark{background:color-mix(in srgb,var(--verdict) 22%,transparent);color:inherit;border-radius:3px;padding:0 2px}
+@media (prefers-reduced-motion:no-preference){.slip{transition:transform .15s,border-color .15s}.slip:hover{border-color:var(--accent)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="appbar">
+    <div class="logo"><img src="/logo-128.png" alt="Маргаан таслагч лого" width="44" height="44">Маргаан таслагч</div>
+    <a href="#ads">Зар байршуулах</a>
+  </div>
+
+  <div class="hero">
+    <span class="eyebrow">Хамтдаа тоглоё!</span>
+    <h1>Ширээн дээрх маргааныг дүрмээр нь шийд</h1>
+    <p>Билльярд, покер, муушиг, 13 покерийн маргаантай нөхцөлийг хайгаад шийдвэрийг нь харна уу. Шийдвэр бүр олон улсын дүрмийн заалт эсвэл эх сурвалжтай.</p>
+  </div>
+
+  <div class="ad-banner" id="ad-top"></div>
+
+  <div class="layout">
+    <div>
+      <div class="bar">
+        <div class="search"><input id="q" type="search" placeholder="Жишээ: эхлэлийн цохилт, ганц чип, тамга, өнжих…" aria-label="Маргаан хайх"></div>
+        <div class="chips" id="chips" role="group" aria-label="Тоглоом сонгох"></div>
+        <div class="legend">
+          <span><i class="dot" style="background:var(--std)"></i>Олон улсын дүрэм</span>
+          <span><i class="dot" style="background:var(--trad)"></i>Уламжлалт дүрэм</span>
+          <span><i class="dot" style="background:var(--agree)"></i>Тоглохын өмнө тохирох</span>
+          <span><i class="dot" style="background:var(--rec)"></i>Санал болгох журам</span>
+        </div>
+      </div>
+      <main id="list"></main>
+
+      <div class="principles">
+        <h2>Найзуудын дунд маргаан шийдэх 5 зарчим</h2>
+        <ol>
+          <li>Тоглохоос өмнө аль дүрмээр (олон улсын эсвэл гэрийн хувилбар) тоглохоо тохиро.</li>
+          <li>Алдааг дараагийн цохилт эхлэхээс өмнө хэлнэ. Хожим хэлсэн алдаа тооцогдохгүй (WPA 3).</li>
+          <li>Нотолгоо байхгүй, нэг нь «алдаа», нөгөө нь «алдаа биш» гэвэл алдаа болоогүйд тооцно (WPA журам 5, 25).</li>
+          <li>Ээлжээрээ хэлсэн үг, хийсэн үйлдэл заавал биелнэ (TDA 52, 53).</li>
+          <li>Дүрэмд байхгүй нөхцөлд шударга байдал түрүүлнэ (TDA 1, WPA журам 23).</li>
+        </ol>
+      </div>
+    </div>
+
+    <aside id="ads">
+      <h2>Зарын самбар <span>Ивээн тэтгэгч</span></h2>
+      <div id="ad-board" style="display:grid;gap:12px"></div>
+      <div class="glossary">
+        <h2>Нэр томьёо</h2>
+        <dl id="gloss"></dl>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div>Эх сурвалж: <a href="https://wpapool.com/rules/" target="_blank" rel="noopener">Дэлхийн пул билльярдын холбоо (WPA), 2025</a> · <a href="https://www.pokertda.com/view-poker-tda-rules/" target="_blank" rel="noopener">Покерын тэмцээний захирлуудын холбоо (TDA), 2026</a> · <a href="https://mn.wikipedia.org/wiki/%D0%9C%D1%83%D1%83%D1%88%D0%B8%D0%B3" target="_blank" rel="noopener">Муушиг — Википедиа</a></div>
+    <div>TDA rules used by permission of the Poker TDA, Copyright 2026, <a href="http://www.pokertda.com" target="_blank" rel="noopener">http://www.pokertda.com</a>, All rights reserved. Дүрмийг монголоор хураангуйлсан тул яг үгчлэлийг эх сурвалжаас шалгана уу.</div>
+    <div>Муушиг, 13 покерт олон улсын стандарт дүрэм байхгүй. «Санал болгох журам» нь албан ёсны дүрэм биш.</div>
+  </footer>
+</div>
+
+<script>
+/* ===== ЗАР: энд засаад шинэ зар нэмнэ. type: "banner" (дээд), "board" (самбар), "inline" (жагсаалт дунд) ===== */
+const ADS=[
+ {type:"banner",title:"Энд таны зар байрлана",text:"Билльярдын клуб, покерын клуб, тоглоомын дэлгүүрээ олон мянган тоглогчид хүргэ.",contact:"Холбоо барих хаягаа энд бичнэ"},
+ {type:"board",cat:"Жишээ зар · Билльярд",title:"Билльярдын клубын нэр",text:"Олон улсын стандартын ширээ, долоо хоног бүр 9 бөмбөгтийн тэмцээн.",contact:"9900-0000"},
+ {type:"board",cat:"Жишээ зар · Тэмцээн",title:"Муушигийн аварга шалгаруулах тэмцээн",text:"Бүртгэл нээлттэй. Огноо, байршлаа энд бичнэ.",contact:"8800-0000"},
+ {type:"board",cta:true,cat:"Зар байршуулах",title:"Таны бизнес энд",text:"Самбар, дээд хэсэг эсвэл жагсаалтын дунд зар байршуулах боломжтой.",contact:"Холбоо барих хаягаа энд бичнэ"},
+ {type:"inline",title:"Хөзөр, бөмбөг, тоглоомын хэрэгсэл",text:"Жишээ зар. Энд дэлгүүрийн зар байрлана.",contact:"7700-0000"}
+];
+const GLOSS=[["break","Эхлэлийн цохилт"],["foul","Алдаа"],["scratch","Цагаан бөмбөг нүхлэх"],["ball in hand","Цагаан бөмбөгийг гараар байрлуулах"],["rail","Хашлага"],["push out","Чөлөөт цохилт"],["safety","Хамгаалалтын цохилт"],["call / raise / fold","Дагах / нэмэх / хаях"],["check","Өнжих"],["all-in","Бүх чипээ тавих"],["pot","Нийт бооцоо"],["flop / river","Эхний 3 / сүүлийн нээлттэй хөзөр"],["muck","Хаягдал хөзөр"],["misdeal","Буруу тараалт"],["showdown","Хөзөр нээх шат"]];
+
+const GAMES=[
+ {id:"8b",name:"8 бөмбөгт",src:"WPA олон улсын дүрэм, 4-р бүлэг",
+  agree:["Олон улсын дүрмээр үү, бааранд түгээмэл гэрийн дүрмээр үү?","Цохилт бүрийг зарлах уу, санамсаргүй орсон бөмбөгийг тооцох уу?","Бүх алдааг тооцох уу, зөвхөн цагаан бөмбөгний алдааг уу (WPA журам 20)?"]},
+ {id:"9b",name:"9 бөмбөгт",src:"WPA олон улсын дүрэм, 5-р бүлэг"},
+ {id:"pk",name:"Техас холдем",src:"TDA олон улсын покерын дүрэм 2026"},
+ {id:"mu",name:"Муушиг",src:"Олон улсын стандартгүй · уламжлалт дүрэм",
+  agree:["Хэдэн хүн, хэдэн хөзрөөр (5 хүнд 32 хөзөр: 7-оос тамга хүртэл)","4 тамга ирвэл шууд хожих уу?","Эхэлж буй хүн түүзтэй бол заавал гаргах уу?","3 удаа дараалан өнжвөл автоматаар орох уу?","Өнгө дагаагүй нь илэрвэл ямар шийтгэл өгөх вэ?"]},
+ {id:"13",name:"13 покер",src:"Олон улсын стандартгүй · Хятад, Вьетнамын төстэй тоглоомуудын нийтлэг дүрэм",
+  agree:["Анхны гарыг хэн эхлэх вэ (аль дүрсийн 3)?","Дүрсний эрэмбэ (жишээ нь гил < цэцэг < дөрвөлжин < бунд) ямар вэ?","2 нь дараалалд орох уу?","Каре, дараалсан хос зэрэг «бөмбөг» 2-ыг дарах уу?","Шууд хожих гар (дөрвөн 2, 3-аас 2 хүртэлх 13 дараалал) хүчинтэй юу?","Үлдсэн хөзрийн оноог хэрхэн тоолох вэ?"]}
+];
+const CASES=[
+["8b","Эхлэлийн цохилтоор 8 бөмбөг орчихлоо. Хожих уу, хожигдох уу?","Аль нь ч биш. Алдаа хийгээгүй бол цохисон тоглогч сонгоно: 8-ыг буцааж тавиад үргэлжлүүлэх эсвэл дахин эхлүүлэх.","Хууль ёсны эхлэлийн цохилтоор 8 орох нь алдаа биш.","std","WPA 4.3(e)","break"],
+["8b","Эхлэлийн цохилтоор 8 бөмбөг ч, цагаан бөмбөг ч орсон.","Өрсөлдөгч сонгоно: 8-ыг буцааж тавиад толгойн шугамын ард цагаан бөмбөгийг гараар байрлуулж цохих эсвэл дахин эхлүүлэх. Тоглолт алдагдахгүй.","","std","WPA 4.3(f)","break scratch"],
+["8b","Эхлэлийн цохилтоор нэг ч бөмбөг ороогүй, хашлагад хүрсэн бөмбөг цөөхөн.","Бөмбөг ороогүй бол дор хаяж 4 бөмбөг хашлагад хүрэх ёстой. Үгүй бол хууль бус эхлэл: дараагийн тоглогч ширээг байгаагаар нь авах, өөрөө дахин өрж эхлүүлэх, эсвэл буруутайг дахин цохиулах эрхтэй.","","std","WPA 4.3(d)","break rail"],
+["8b","Групп тодроогүй (ширээ нээлттэй) үед 8 бөмбөгийг түрүүлж мөргөсөн.","Алдаа. Өрсөлдөгч цагаан бөмбөгийг гараар байрлуулна. Групп тодрох хүртэл 8-аас бусад аль ч бөмбөгийг эхэлж мөргөж болно.","","std","WPA 4.4","open table"],
+["8b","8 бөмбөгийг цохиход 8 ороогүй ч цагаан бөмбөг нүхэлсэн. Хожигдох уу?","Олон улсын дүрмээр хожигдохгүй, энгийн алдаа: өрсөлдөгч цагаан бөмбөгийг ширээний хаана ч байрлуулна. 8-ыг оруулж байхдаа алдаа хийвэл л хожигдоно.","АНУ-ын зарим лигийн дүрмээр энэ нь хожигдол. Тиймээс тоглохын өмнө тохиролцох хэрэгтэй.","std","WPA 4.8, 4.9","scratch"],
+["8b","Ямар үед тоглолтыг шууд алдах вэ?","4 тохиолдол: 8-ыг алдаатай оруулах, өөрийн группийг дуусгахаас өмнө оруулах, зарлаагүй нүхэнд оруулах, 8-ыг ширээнээс үсрүүлэх. Эхлэлийн цохилтод хамаарахгүй.","","std","WPA 4.8",""],
+["8b","Илэрхий цохилтод ч гэсэн нүхээ заавал хэлэх ёстой юу?","Үгүй. Илэрхий бөмбөг, нүхийг хэлэх шаардлагагүй. Хананаас ойлгох, дамжуулж оруулах зэрэг эргэлзээтэй цохилтод хэлнэ. Өрсөлдөгч эргэлзвэл асууж болно.","Хананд хэдэн удаа хүрэх зэрэг нарийн зүйл хамаагүй, зөвхөн бөмбөг ба нүх.","std","WPA 1.7","call shot"],
+["8b","Алдааны дараа цагаан бөмбөгийг зөвхөн толгойн шугамын ард тавих уу?","Үгүй. Ердийн алдааны дараа ширээний хаана ч тавина. Зөвхөн эхлэлийн цохилтын алдааны үед толгойн шугамын ард хязгаарлагдана.","","std","WPA 4.9, 1.6","ball in hand kitchen"],
+["8b","Дараалан 3 алдаа хийвэл тоглолт алдах уу?","8 бөмбөгтөд үгүй. Гурван алдааны дүрэм энд хамаарахгүй.","","std","WPA 3.13","foul"],
+["8b","Цохилтын дараа ямар ч бөмбөг хашлагад хүрээгүй.","Бөмбөг ороогүй бол цагаан бөмбөг зөв бөмбөгийг мөргөсний дараа ядаж нэг бөмбөг хашлагад хүрэх ёстой. Үгүй бол алдаа.","","std","WPA 3.3","rail"],
+["8b","Цохих үед хоёр хөл газраас хөндийрсөн.","Алдаа. Цохих агшинд ядаж нэг хөл шалан дээр байх ёстой.","","std","WPA 3.4",""],
+["8b","Ханцуй, гар, шохой нь бөмбөгт хүрч хөдөлгөсөн.","Алдаа. Цохигч өөрийн хувцас, бие, шохой, тулгуурын төлөө хариуцна. Санамсаргүй бол энгийн алдаа, санаатай бол спортын бус үйлдэл.","","std","WPA 3.6",""],
+["8b","Групп тодорсны дараа андуураад өрсөлдөгчийн бөмбөгийг оруулсан.","Дараагийн цохилтоос өмнө алдаа гэж хэлэх ёстой. Хэлээгүй бол цааш үргэлжилнэ. Группүүд солигдсон нь хожим илэрвэл тухайн өрөлтийг зогсоож, анх эхлүүлсэн хүн дахин эхлүүлнэ.","","std","WPA журам 10",""],
+["8b","Алдааг хэдэн цохилтын дараа санаж хэлэв.","Тооцохгүй. Дараагийн цохилт эхлэхээс өмнө хэлээгүй алдаа болоогүйд тооцогдоно.","","std","WPA 3","foul"],
+["8b","Нүхний ирмэг дээр зогссон бөмбөг хэдэн секундын дараа унав.","Цохилт дууссанаас хойш 5 секунд хөдөлгөөнгүй зогссон бол орсонд тооцохгүй, байранд нь буцааж тавина.","","std","WPA 2.2, 1.8",""],
+["8b","Аль бөмбөгийг түрүүлж мөргөсөн нь тодорхойгүй.","Зөв болон буруу бөмбөгийг бараг зэрэг мөргөж, ялгах боломжгүй бол зөвийг нь түрүүлж мөргөсөн гэж үзнэ.","","std","WPA 3.2",""],
+["8b","Нэг нь «алдаа», нөгөө нь «алдаа биш» гэж маргав.","Гэрч, бичлэг зэрэг нотолгоо байхгүй бол алдаа болоогүйд тооцно. Эргэлзээтэй цохилтын өмнө тоглоогүй найзаараа харуулахыг хүс.","","std","WPA журам 5, 25","foul"],
+["8b","«Хамгаалалт» гэж зарлаад цохиход бөмбөг орчихсон.","Орсон бөмбөг орсон хэвээр үлдэнэ, ээлж өрсөлдөгчид шилжинэ.","","std","WPA 4.6","safety"],
+["9b","Эхлэлийн цохилтоор 9 орсон. Хожих уу?","Тийм. Алдаа хийгээгүй бол 9-ыг хууль ёсоор оруулсан нь өрөлтийг хожно.","Олон улсын эрэмбийн тэмцээнд «3 бөмбөгийн дүрэм» (журам 16) мөрдвөл шаардлага хангаагүй эхлэлд орсон 9-ыг буцааж тавина.","std","WPA 5.5, журам 16","break"],
+["9b","Алдаа хийх үед 9 орчихсон.","Хожихгүй. 9-ыг буцааж тавина, өрсөлдөгч цагаан бөмбөгийг гараар байрлуулна. Чөлөөт цохилтын үед орсон 9 ч мөн буцааж тавигдана.","","std","WPA 5.6","foul push out"],
+["9b","Хамгийн бага дугаартыг мөргөөд 9-ыг дамжуулж оруулсан. Хүчинтэй юу?","Хүчинтэй. Цагаан бөмбөг эхэлж ширээн дээрх хамгийн бага дугаартыг мөргөсөн бол аль ч бөмбөг хууль ёсоор орж болно. 9 орвол хожно.","","std","WPA 5.5, 5.7","combination combo"],
+["9b","Эхлэлийн дараах цохилтыг «чөлөөт цохилт» болгож болох уу?","Болно. Зөвхөн эхлэлийн дараах анхны цохилтод, урьдчилан хэлж мэдэгдэнэ. Энэ үед «эхэлж буруу бөмбөг мөргөх», «хашлага» дүрэм үйлчлэхгүй. Дараа нь өрсөлдөгч хэн цохихыг сонгоно.","","std","WPA 5.4","push out"],
+["9b","Дараалан 3 алдаа хийв.","Тухайн өрөлтийг алдана. Гэхдээ 2 алдаатай байгааг тоглогч ширээнд ирэхэд урьдчилан анхааруулах ёстой. Анхааруулаагүй бол 3 дахь нь 2 дахь гэж тооцогдоно.","","std","WPA 3.13, 5.8","foul"],
+["9b","9 бөмбөгтөд цохилтоо зарлах ёстой юу?","Үгүй. 9 бөмбөгтөд зарлахгүй, хууль ёсоор орсон бөмбөг тооцогдоно. (10 бөмбөгтөд зарлана.)","","std","WPA 5.5, 6.5","call shot"],
+["pk","Ээлжээрээ «дагая» гэж хэлээд дараа нь хаях гэв.","Боломжгүй. Ээлжээрээ хэлсэн «дагая», «нэмье» гэх мэт үг тухайн үйлдлийг бүрэн хийх үүрэг болно.","","std","TDA 52, 53-A","call raise fold"],
+["pk","Бооцоо тулгарсан үед юу ч хэлэлгүй ганц том чип тавив.","Энэ нь дагасан (тэнцүүлсэн) гэж тооцогдоно. Ганц том чипээр нэмэхийн тулд чип ширээнд хүрэхээс өмнө «нэмье» гэж хэлэх ёстой.","Бооцоо тулгараагүй үед чимээгүй тавьсан том чип нь тухайн чипийн дээд хэмжээгээр бооцоо болно.","std","TDA 46","overchip call raise"],
+["pk","1000-ын бооцоонд 1400 тавив. Нэмсэн үү, дагасан уу?","Дагасан. Өмнөх бооцооноос 50%-иас бага нэмсэн бөгөөд «нэмье» гэж эхэлж хэлээгүй тул дагасанд тооцно. 50% ба түүнээс дээш бол бүтэн доод нэмэлт хийх үүрэгтэй.","","std","TDA 45","raise call"],
+["pk","Чипээ тавиад, буцаж стекээс нэмж авчирсан.","Хэсэгчилсэн бооцоо, зөвшөөрөхгүй. Нэмэлтээ нэг хөдөлгөөнөөр бүтэн тавих эсвэл чип тавихаас өмнө нийт дүнг хэлэх ёстой.","","std","TDA 44, 58","string bet raise"],
+["pk","Хөзөр тараах үед диллер нэг хөзрийг ил гаргачихлаа.","Тавцангийн эхний 2 хөзрийн аль нэг, эсвэл өөр 2 далд хөзөр ил болвол буруу тараалт. Бусад тохиолдолд тараалт үргэлжилнэ. Тоглогчид мэдэгдэхүйц үйлдэл хийсний дараа буруу тараалт зарлахгүй.","«Мэдэгдэхүйц үйлдэл»: ээлжээрээ хийсэн 2 үйлдэл (нэг нь чип тавьсан) эсвэл дурын 3 үйлдэл.","std","TDA 37-A, 37-D, 38","misdeal"],
+["pk","Эхний нээлттэй хөзөр 3 биш 4 гарав.","Тоглолтыг түр зогсооно. 4 хөзрийг доош нь хольж, тоглоогүй хүн санамсаргүй нэгийг нь шатаах хөзөр болгож, үлдсэн 3 нь нээлттэй хөзөр болно.","","std","TDA 41-A","flop burn floor"],
+["pk","«Би хожлоо» гэж буруу хэлсэн, гэтэл хөзөр нь өөр байв.","Хөзөр өөрөө шийднэ. Хөзөр нээх шатанд хэлсэн үг хүчингүй, ил тавьсан хөзрөөр шийднэ. Санаатай буруу хэлсэн бол шийтгэл өгч болно.","","std","TDA 13","cards speak showdown"],
+["pk","Ялна гэж бодоод хөзрөө бүрэн ил тавилгүй хаясан.","Хаягдлаас 100% ялгаж буцааж авах боломжгүй бол нийт бооцоонд эрхгүй. Хоёр хөзрөө ил тавьж уншуулах нь тоглогчийн үүрэг.","","std","TDA 14-B, 15, 67","muck"],
+["pk","Хөзөр нээх шатанд хэн түрүүлж үзүүлэх вэ?","Сүүлийн тойрогт хамгийн сүүлд бооцоо тавьсан эсвэл нэмсэн тоглогч. Сүүлийн тойрогт бооцоо байгаагүй бол дилерийн тэмдгийн зүүн талын анхны тоглогч.","","std","TDA 18-A","showdown button"],
+["pk","Сүүлийн тойрогт дагасан хүн нөгөөгийнхөө хөзрийг харахыг шаардав.","Эрхтэй. Сүүлийн тойрогт бооцоо байсан бол дагасан хүн өөрийн хөзрөө хадгалж байгаа тохиолдолд сүүлд бооцоо тавьсан хүний хөзрийг ил тавиулах эрхтэй.","","std","TDA 19-B","river call"],
+["pk","Ээлжгүй нэмсэн, дараа нь ээлжтэй хүн дагасан.","3 ба түүнээс дээш тоглогчтой үед ээлжгүй үйлдлийг зөв хүн рүү буцаана. Тэр хүн өнжих, дагах, хаях хийвэл ээлжгүй үйлдэл хүчинтэй. Бооцоо өөрчлөгдвөл ээлжгүй хүн бүх сонголтоо эргүүлж авна. Ээлжгүй хаясан бол буцаахгүй.","","std","TDA 55-A","out of turn"],
+["pk","Бүх чипээ тавьсан ч бүтэн нэмэлтэд хүрэхгүй байв. Өмнө нь дагасан хүн дахин нэмж болох уу?","Үгүй. Бүтэн нэмэлтээс бага «бүх чип» нь өмнө нь үйлдэл хийсэн тоглогчдод бооцоог дахин нээхгүй.","","std","TDA 49-A","all-in"],
+["pk","Диллер бооцооны дүнг буруу хэлж, түүгээр дагав.","Дагасан хүн зөв дүнг бүрэн хүлээн зөвшөөрсөнд тооцогдоно. Бооцооны дүнг шалгах нь дагагчийн үүрэг.","","std","TDA 51","call"],
+["pk","Хөзөр тарааж дуусахад тоглогч суудалдаа байгаагүй.","Гар нь хүчингүй. Сүүлийн хөзөр тарахад гараа сунгаад хүрэх зайд байх ёстой. Тавьсан албадан бооцоо нийт бооцоонд үлдэнэ.","","std","TDA 32","blind ante"],
+["pk","Хоёр тэнцсэн гар бооцоо хуваахад сондгой чип үлдэв.","Дилерийн тэмдгийн зүүн талын анхны суудалд очно (хамгийн бага чип рүү задалсны дараа).","","std","TDA 21","pot button"],
+["pk","Тавцанд ижил хоёр хөзөр байгаа нь илэрлээ.","Гэмтэлтэй тавцан. Хэдэн үйлдэл хийснээс үл хамааран тоглолт зогсож, бүх бооцоо буцаагдана.","","std","TDA 37-E","fouled deck"],
+["mu","Гарсан өнгөтэй хөзөр надад байгаа ч бага. Өөр өнгө тавьж болох уу?","Үгүй. Гарсан өнгийн хөзөр байвал тэр өнгөөсөө заавал гаргана. Тэр өнгөнөөс өндөр хөзөр байвал өндрийг нь гаргаж идэх ёстой.","","trad","Википедиа: Муушиг","дийлэх"],
+["mu","Гарсан өнгө надад огт байхгүй.","Хөзрийн (ил суусан) өнгөөр идэх ёстой. Хөзрийн өнгө ч байхгүй бол дурын өөр өнгө өгнө.","","trad","Википедиа: Муушиг","тамга"],
+["mu","Хамгийн сүүлд тавьж буй хүн тамгаар биш, жижиг модоор идэж болох уу?","Болно. Адаг гар (сүүлийн тоглогч) дийлэх хамгийн бага модоор идэж, тамгаа хадгалж болно.","","trad","Википедиа: Муушиг",""],
+["mu","Хэн түрүүлж «орно» эсвэл «өнжинө» гэж хэлэх вэ?","Аман хүзүү (ажил хийсэн хүний дараагийн хүн) эхэлж хэлнэ, нар зөв дараалан, ажил хийсэн хүн хамгийн сүүлд. Өмнөх бүгд өнжвөл сүүлийн хоёр автоматаар тоглоно.","","trad","Википедиа: Муушиг","пасс"],
+["mu","Газрын мод дуусаад миний солих ээлж ирэв.","Солих боломжгүй, анх тараасан хөзрөөрөө тоглоно. Солилт аман хүзүүгээс нар зөв явагдана.","","trad","Википедиа: Муушиг",""],
+["mu","Ажил хийсэн хүн ил суусан хөзрийн модыг авч болох уу?","Болно. Ажил хийсэн хүн өөрийн нэг хөзрийг хаяж, ил суусан модыг авах онцгой эрхтэй.","","trad","Википедиа: Муушиг",""],
+["mu","Орсон ч нэг ч гэр бариагүй. Өнжсөн хүний оноо?","Орсон хүн гэр бариагүй бол оноо +5. Өнжсөн хүний оноо өөрчлөгдөхгүй. Бусад нь барьсан гэрийнхээ тоогоор 15-аас хасна. 0 буюу түүнээс бага болсон хүн хожно.","","trad","Википедиа: Муушиг",""],
+["mu","Гарт 4 тамга ирлээ. Шууд хожих уу?","Түгээмэл хувилбар боловч бүх газар мөрддөггүй. Тоглохын өмнө тохирно уу.","","agree","Википедиа: Муушиг (онцгой дүрэм)",""],
+["mu","Эхэлж буй хүн түүзтэй. Заавал түүзээ гаргах уу?","Зарим газрын онцгой дүрэм: түүзтэй бол заавал эхэлж гаргана, гаргаагүй бол түүзийн үнэ цэнэ буурна. Тоглохын өмнө тохирно уу.","","agree","Википедиа: Муушиг (онцгой дүрэм)",""],
+["mu","Өнгө дагах боломжтой байсан ч дагаагүй нь хожим илэрлээ.","Уламжлалт дүрэмд шийтгэл тодорхойгүй. Санал: тухайн гарт гэр бариагүйтэй адилтган +5 оноо өгөх, эсвэл тухайн гарыг дахин тоглох. Аль нэгийг урьдчилан сонго.","","rec","Санал болгох журам",""],
+["mu","Хөзөр тараахад хэн нэгэнд 4 эсвэл 6 мод ирлээ.","Санал: солих шат эхлэхээс өмнө илэрвэл тараалтыг хүчингүй болгож, тухайн хүн дахин тараана. Тоглолт эхэлсний дараа илэрвэл ажлын ээлжийг алгасалгүй дахин тараана.","Покерын TDA 37 дүрмийн логикоос авсан санал.","rec","Санал болгох журам (TDA 37-аас)","misdeal буруу тараалт"],
+["13","Өнжсөний дараа тухайн тойрогт дахин тавьж болох уу?","Ихэвчлэн болохгүй: өнжсөн хүн бүгд өнжиж тойрог дуустал хөзөр тавихгүй. Таны газрын дүрэм өөр бол урьдчилан тохиро.","","trad","Төстэй тоглоомуудын нийтлэг дүрэм","пасс"],
+["13","Өмнөх хүн хос тавьсан, би гурвал тавьж болох уу?","Үгүй. Тойргийг эхлүүлсэн хослол (ганц, хос, гурвал, 5 хөзөр) тойрог дуустал хадгалагдана. «Бөмбөг» дүрэм зөвшөөрсөн бол л үл хамаарна.","","trad","Төстэй тоглоомуудын нийтлэг дүрэм",""],
+["13","Ижил дугаартай хөзөр тавихад аль нь дийлэх вэ?","Дүрсний эрэмбээр шийднэ. Эрэмбэ газар бүрт өөр тул тоглохын өмнө тохирно уу.","","agree","Тохирох хувилбар",""],
+["13","Каре (4 ижил) 2-ыг дарах уу?","Газар бүрт өөр. Нэг хувилбарт «бөмбөг» 2-ыг дардаг, нөгөөд нь зөвхөн 5 хөзрийн хослол дотор тооцогддог. Урьдчилан тохиро.","","agree","Тохирох хувилбар",""],
+["13","Буруу (бага) хөзөр тавьчихаад дараагийн хүн тавьсны дараа мэдэв.","Санал: дараагийн хүн тавихаас өмнө илэрвэл буцааж авна, шийтгэлгүй. Дараа нь илэрвэл тавьсан хэвээр үлдэх эсвэл буруу тавьсан хүн тухайн тойрогт өнжих. Нэгийг урьдчилан сонго.","Покерын TDA-гийн «мэдэгдэхүйц үйлдэл»-ийн логик: хоёр ээлж өнгөрсний дараа засахгүй.","rec","Санал болгох журам (TDA 38-аас)",""],
+["13","Нэг хүнд 12 эсвэл 14 мод ирлээ.","Санал: эхний хөзөр тавихаас өмнө илэрвэл дахин тараана. Тоглолт эхэлсний дараа илэрвэл тухайн гарыг хүчингүй болгож дахин тараана.","","rec","Санал болгох журам (TDA 37-аас)","misdeal буруу тараалт"],
+["13","Дөрвөн 2 эсвэл 3-аас 2 хүртэл 13 дараалал ирлээ.","Олон хувилбарт шууд хожил гэж тооцдог ч бүх газар биш. Тоглохын өмнө тохирно уу.","","agree","Тохирох хувилбар",""]
+];
+const TAG={std:["t-std","Олон улсын дүрэм"],trad:["t-trad","Уламжлалт дүрэм"],agree:["t-agree","Тохирох хувилбар"],rec:["t-rec","Санал болгох журам"]};
+let current="all";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function hl(text,q){if(!q)return esc(text);const i=text.toLowerCase().indexOf(q.toLowerCase());return i<0?esc(text):esc(text.slice(0,i))+"<mark>"+esc(text.slice(i,i+q.length))+"</mark>"+esc(text.slice(i+q.length))}
+function adHTML(a,cls){return `<div class="${cls}"><span class="ad-label">Зар</span><p><b>${esc(a.title)}</b></p><p>${esc(a.text)}</p><span class="ref" style="user-select:all">${esc(a.contact)}</span></div>`}
+function renderAds(){
+  const b=ADS.find(a=>a.type==="banner");
+  $("#ad-top").innerHTML=b?`<div><span class="ad-label">Зар</span><div><b>${esc(b.title)}</b> · ${esc(b.text)}</div></div><span class="ref" style="user-select:all">${esc(b.contact)}</span>`:"";
+  $("#ad-top").hidden=!b;
+  $("#ad-board").innerHTML=ADS.filter(a=>a.type==="board").map(a=>`<div class="ad${a.cta?" cta":""}"><span class="cat">${esc(a.cat||"Зар")}</span><b>${esc(a.title)}</b><p>${esc(a.text)}</p><span class="contact">${esc(a.contact)}</span>${a.cta?`<button class="btn" type="button" data-copy="${esc(a.contact)}">Хаягийг хуулах</button>`:""}</div>`).join("");
+  document.querySelectorAll("[data-copy]").forEach(btn=>btn.onclick=()=>{const t=btn.dataset.copy;navigator.clipboard.writeText(t).then(()=>btn.textContent="Хуулагдлаа",()=>btn.textContent=t)});
+  $("#gloss").innerHTML=GLOSS.map(g=>`<dt>${esc(g[0])}</dt><dd>${esc(g[1])}</dd>`).join("");
+}
+function chips(){
+  const c=$("#chips");const all=[{id:"all",name:"Бүгд"},...GAMES];
+  c.innerHTML=all.map(g=>{const n=g.id==="all"?CASES.length:CASES.filter(x=>x[0]===g.id).length;return `<button class="chip" data-id="${g.id}" aria-pressed="${g.id===current}">${g.name}<span class="n">${n}</span></button>`}).join("");
+  c.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{current=b.dataset.id;track("game_filter",{game:current});try{localStorage.setItem("game",current)}catch(e){}chips();render()});
+}
+function render(){
+  const q=$("#q").value.trim();const ql=q.toLowerCase();let out="";let total=0;
+  const inline=ADS.filter(a=>a.type==="inline");let shown=0,adi=0;
+  for(const g of GAMES){
+    if(current!=="all"&&current!==g.id)continue;
+    const rows=CASES.filter(c=>c[0]===g.id&&(!ql||(c[1]+" "+c[2]+" "+c[3]+" "+c[6]).toLowerCase().includes(ql)));
+    if(!rows.length)continue;total+=rows.length;
+    out+=`<section class="game"><div class="ghead"><h2>${g.name}</h2><span class="src">${g.src}</span></div>`;
+    if(g.agree&&!ql)out+=`<div class="agree-box"><h3>Тоглохын өмнө тохирох зүйлс</h3><ul>${g.agree.map(a=>`<li>${a}</li>`).join("")}</ul></div>`;
+    for(const c of rows){const t=TAG[c[4]];
+      out+=`<article class="slip"><p class="q">${hl(c[1],q)}</p><div class="verdict"><span class="vbadge">Шийдвэр</span><p>${hl(c[2],q)}</p></div>${c[3]?`<p class="why">${hl(c[3],q)}</p>`:""}<div class="meta"><span class="tag ${t[0]}">${t[1]}</span><span class="ref">${c[5]}</span></div></article>`;
+      shown++;if(inline.length&&shown%6===0){out+=adHTML(inline[adi%inline.length],"ad-inline");adi++;}
+    }
+    out+="</section>";
+  }
+  $("#list").innerHTML=total?out:`<p class="empty">«${esc(q)}» гэсэн маргаан олдсонгүй. Өөр үгээр хайж эсвэл «Бүгд»-ийг сонгоно уу.</p>`;
+}
+try{const s=localStorage.getItem("game");if(s&&(s==="all"||GAMES.some(g=>g.id===s)))current=s}catch(e){}
+$("#q").addEventListener("input",render);
+let st;$("#q").addEventListener("input",()=>{clearTimeout(st);st=setTimeout(()=>{const v=$("#q").value.trim();if(v.length>2)track("search",{q:v.slice(0,60)})},1200)});
+document.addEventListener("click",e=>{const a=e.target.closest(".ad,.ad-inline,.ad-banner");if(a)track("ad_click",{ad:(a.querySelector("b")||{}).textContent||"banner"})});
+renderAds();chips();render();
+</script>
+
+</body>
+</html>
